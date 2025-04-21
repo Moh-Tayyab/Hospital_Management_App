@@ -59,23 +59,18 @@ Follow these steps to set up the project locally:
    source venv/bin/activate   # On Windows: venv\Scripts\activate
    ```
 
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Database migrations**:
+3. **Database migrations**:
    ```bash
    python manage.py makemigrations
    python manage.py migrate
    ```
 
-5. **Create a superuser**:
+4. **Create a superuser**:
    ```bash
    python manage.py createsuperuser
    ```
 
-6. **Run the development server**:
+5. **Run the development server**:
    ```bash
    python manage.py runserver
    ```
