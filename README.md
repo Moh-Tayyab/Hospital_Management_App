@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](#) [![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A robust **Hospital Management System** built with **Django REST Framework** that streamlines operations and efficiently manages hospital data.
+A modern and comprehensive Hospital Management System built with cutting-edge technologies to streamline healthcare operations and enhance patient care.
 
 ---
 
@@ -18,17 +18,38 @@ A robust **Hospital Management System** built with **Django REST Framework** tha
   - [⚙️ Admin Interface](#️-admin-interface)
   - [🤝 Contributing](#-contributing)
   - [📄 License](#-license)
+  - [👥 Authors](#-authors)
+  - [🙏 Acknowledgments](#-acknowledgments)
+  - [📞 Support](#-support)
+  - [🔄 Updates](#-updates)
 
 ---
 
 ## ✨ Features
 
-- ✅ **CRUD Operations** for Doctors, Nurses, Staff, Patients, Appointments, and Medical Records
-- 🔒 **Role-Based Access Control** to secure sensitive data
-- 🌐 **RESTful API Endpoints** following best practices
-- 🛠 **Admin Interface** for easy data management
-- 🔗 **Relationship Management** between entities (e.g., Patients ↔️ Appointments)
-- 🔍 **Filtering & Detailed Views** for quick data retrieval
+- **Patient Management**
+  - Patient registration and profile management
+  - Medical history tracking
+  - Appointment scheduling
+  - Digital health records
+
+- **Staff Management**
+  - Doctor and staff profiles
+  - Shift scheduling
+  - Performance tracking
+  - Specialization management
+
+- **Administrative Tools**
+  - Billing and invoicing
+  - Inventory management
+  - Report generation
+  - Analytics dashboard
+
+- **Appointment System**
+  - Online booking
+  - Automated reminders
+  - Calendar integration
+  - Wait-list management
 
 ---
 
@@ -99,7 +120,7 @@ Token-based authentication is enforced on all endpoints.
 
 1. **Obtain Token**:
    ```http
-   POST /api-token-auth/
+   POST /api/login/
    Content-Type: application/json
 
    {
@@ -139,6 +160,25 @@ We welcome contributions! Please follow these steps:
 ## 📄 License
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 Authors
+
+- Muhammad Tayyab - *Initial work* - [My LinkedIn Profile](https://www.linkedin.com/in/ch-muhammad-tayyab/)
+
+## 🙏 Acknowledgments
+
+- Thanks to all contributors who have helped this project grow
+- Special thanks to the open-source community for their valuable tools and libraries
+
+## 📞 Support
+
+For support, please email support@hospitalmanagementsystem.com or create an issue in the GitHub repository.
+
+## 🔄 Updates
+
+Stay tuned for regular updates and new features. Follow our GitHub repository for the latest changes.
 
 ---
 

@@ -3,6 +3,9 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import (
     Department, Doctor, Nurse, Staff, Patient,
     Appointment, MedicalRecord
@@ -10,20 +13,73 @@ from .models import (
 from .serializers import (
     DepartmentSerializer, DoctorSerializer, NurseSerializer,
     StaffSerializer, PatientSerializer, AppointmentSerializer,
-    MedicalRecordSerializer
+    MedicalRecordSerializer, UserSerializer
 )
 
+def home(request):
+    return render(request, 'hospital/home.html', {
+        'title': 'Hospital Management System',
+        'message': 'Welcome to the Hospital Management System API'
+    })
+
 # Create your views here.
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
 
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [permissions.IsAuthenticated]
+    
+    @action(detail=False, methods=['delete'])
+    def delete_by_name(self, request):
+        name = request.data.get('name')
+        if not name:
+            return Response(
+                {'error': 'Department name is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            department = Department.objects.get(name=name)
+            department.delete()
+            return Response(
+                {'message': f'Department {name} deleted successfully'},
+                status=status.HTTP_200_OK
+            )
+        except Department.DoesNotExist:
+            return Response(
+                {'error': f'Department with name {name} does not exist'},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     permission_classes = [permissions.IsAuthenticated]
+    
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except Department.MultipleObjectsReturned:
+            return Response(
+                {'error': 'Multiple departments found with the same name. Please contact administrator.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
     
     @action(detail=True, methods=['get'])
     def patients(self, request, pk=None):
