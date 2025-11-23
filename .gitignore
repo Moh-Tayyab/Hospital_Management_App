@@ -75,3 +75,26 @@ wheels/
 # Backup files
 *.bak
 *~
+
+# API_USAGE_GUIDE.md 
+API_USAGE_GUIDE.md
+
+# QUICK_START.md 
+QUICK_START.md
+
+# simple_test.py 
+simple_test.py
+
+# test_appointments.py 
+test_appointments.py
+
+# test_doctor.py 
+test_doctor.py
+
+
+# verify_patient.py 
+verify_patient.py 
+
+# create_test_data.py
+create_test_data.py
+
