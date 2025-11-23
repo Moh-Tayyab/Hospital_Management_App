@@ -2,11 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, status, permissions
 from datetime import datetime, timedelta
 
-def home(request):
-    return render(request, 'hospital/home.html', {
-        'title': 'Hospital Management System',
-        'message': 'Welcome to the Hospital Management System API'
-    })
+# Home page is now handled by Next.js frontend - view removed
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
