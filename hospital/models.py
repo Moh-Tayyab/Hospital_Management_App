@@ -1,6 +1,20 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from typing import Optional, Dict, Any
+
+class CustomUser(AbstractUser):
+    ROLE_CHOICES = [
+        ('ADMIN', 'Admin'),
+        ('DOCTOR', 'Doctor'),
+        ('NURSE', 'Nurse'),
+        ('RECEPTIONIST', 'Receptionist'),
+        ('PATIENT', 'Patient'),
+    ]
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='PATIENT')
+
+    def __str__(self):
+        return self.username
 
 class Department(models.Model):
     name: str = models.CharField(max_length=100)
@@ -10,7 +24,7 @@ class Department(models.Model):
         return self.name
 
 class Doctor(models.Model):
-    user: User = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='doctor_profile')
     specialization: str = models.CharField(max_length=100)
     department: 'Department' = models.ForeignKey(Department, on_delete=models.CASCADE)
     contact_info: str = models.CharField(max_length=100)
@@ -20,7 +34,7 @@ class Doctor(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
 
 class Nurse(models.Model):
-    user: User = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='nurse_profile')
     department: 'Department' = models.ForeignKey(Department, on_delete=models.CASCADE)
     contact_info: str = models.CharField(max_length=100)
     shift: str = models.CharField(max_length=50)
@@ -29,7 +43,7 @@ class Nurse(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
 
 class Staff(models.Model):
-    user: User = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='staff_profile')
     role: str = models.CharField(max_length=100)
     department: 'Department' = models.ForeignKey(Department, on_delete=models.CASCADE)
     contact_info: str = models.CharField(max_length=100)
@@ -44,7 +58,7 @@ class Patient(models.Model):
         ('O', 'Other'),
     ]
     
-    user: User = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='patient_profile')
     age: int = models.IntegerField()
     gender: str = models.CharField(max_length=1, choices=GENDER_CHOICES)
     contact_info: str = models.CharField(max_length=100)
